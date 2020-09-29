@@ -1,10 +1,21 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { UserEntity } from 'src/auth/entities/user.entity';
 import { TaskCreateDto } from './dto/task-create.dto';
+import { TaskDeleteDto } from './dto/task-delete.dto';
 import { TaskDetailDto } from './dto/task-detail.dto';
 import { TaskSearchDto } from './dto/task-search.dto';
+import { TaskUpdateDto } from './dto/task-update.dto';
+import { TaskEntity } from './entities/task.entity';
 import {
   TaskResponseInterface,
   TasksResponseInterface,
@@ -29,6 +40,13 @@ export class TaskController {
     };
   }
 
+  @Patch('update')
+  async update(@Body() taskUpdate: TaskUpdateDto): Promise<TaskEntity> {
+    const task = await this.taskService.updateExisting(taskUpdate);
+
+    return task;
+  }
+
   @Get('detail')
   async detail(
     @Body() taskDetail: TaskDetailDto,
@@ -51,5 +69,10 @@ export class TaskController {
       statusCode: 200,
       data: tasks,
     };
+  }
+
+  @Delete('delete')
+  async delete(@Body() taskDelete: TaskDeleteDto): Promise<any> {
+    return this.taskService.softDeleteExisting(taskDelete);
   }
 }

@@ -3,8 +3,10 @@ import { UserEntity } from 'src/auth/entities/user.entity';
 import { ProjectRepository } from 'src/project/repositories/project.repository';
 import { IsNull, Like, Not, Raw } from 'typeorm';
 import { TaskCreateDto } from '../dto/task-create.dto';
+import { TaskDeleteDto } from '../dto/task-delete.dto';
 import { TaskDetailDto } from '../dto/task-detail.dto';
 import { TaskSearchDto } from '../dto/task-search.dto';
+import { TaskUpdateDto } from '../dto/task-update.dto';
 import { TaskEntity } from '../entities/task.entity';
 import { TaskStatusEnum } from '../enums/task-status.enum';
 import { TaskRepository } from '../repositories/task.repository';
@@ -45,6 +47,42 @@ export class TaskService {
   }
 
   /**
+   * Update existing task
+   */
+  public async updateExisting(taskUpdate: TaskUpdateDto): Promise<TaskEntity> {
+    const { id, title, description, dueDate, projectId } = taskUpdate;
+    const task = await this.taskRespository.findOne({
+      where: { id },
+      relations: ['project'],
+    });
+
+    if (!task) throw new NotFoundException('Task not found!');
+
+    const project = projectId
+      ? await this.projectRespository.findOne({
+          id: projectId,
+        })
+      : task.project;
+
+    const updateData = {
+      title,
+      description,
+      dueDate,
+      project,
+    };
+
+    for (const key in updateData) {
+      if (Object.prototype.hasOwnProperty.call(task, key)) {
+        if (updateData[key]) task[key] = updateData[key];
+      }
+    }
+
+    task.save();
+
+    return task;
+  }
+
+  /**
    * Search existing tasks
    */
   public searchExisting(taskSearch: TaskSearchDto): Promise<TaskEntity[]> {
@@ -80,5 +118,22 @@ export class TaskService {
     if (!task) throw new NotFoundException('Task not found!');
 
     return task;
+  }
+
+  /**
+   * Soft delete existing task
+   */
+  public async softDeleteExisting(taskDelete: TaskDeleteDto): Promise<any> {
+    const { id } = taskDelete;
+    const task = await this.taskRespository.findOne(id);
+
+    if (!task) throw new NotFoundException('Task not found!');
+
+    await this.taskRespository.softRemove(task);
+
+    return {
+      statusCode: 200,
+      message: 'Task deleted successfully',
+    };
   }
 }
