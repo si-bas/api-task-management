@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserEntity } from 'src/auth/entities/user.entity';
 import { ProjectRepository } from 'src/project/repositories/project.repository';
-import { IsNull, Like, Not, Raw } from 'typeorm';
+import { IsNull, Not, Raw } from 'typeorm';
 import { TaskCreateDto } from '../dto/task-create.dto';
 import { TaskDetailDto } from '../dto/task-detail.dto';
 import { TaskSearchDto } from '../dto/task-search.dto';
@@ -19,7 +19,7 @@ export class TaskService {
   /**
    * Create new task
    */
-  public async createNew(
+  public async create(
     taskCreate: TaskCreateDto,
     user?: UserEntity,
   ): Promise<TaskEntity> {
@@ -47,7 +47,7 @@ export class TaskService {
   /**
    * Search existing tasks
    */
-  public searchExisting(taskSearch: TaskSearchDto): Promise<TaskEntity[]> {
+  public search(taskSearch: TaskSearchDto): Promise<TaskEntity[]> {
     const { title } = taskSearch;
     const tasks = this.taskRespository.find({
       where: {
@@ -63,7 +63,7 @@ export class TaskService {
   /**
    * Detail existing task
    */
-  public async detailExisting(taskDetail: TaskDetailDto): Promise<TaskEntity> {
+  public async detail(taskDetail: TaskDetailDto): Promise<TaskEntity> {
     const { id, userId, projectId } = taskDetail;
     const task = await this.taskRespository.findOne({
       where: {

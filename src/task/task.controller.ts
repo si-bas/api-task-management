@@ -21,7 +21,7 @@ export class TaskController {
     @GetUser() user: UserEntity,
     @Body() taskCreate: TaskCreateDto,
   ): Promise<TaskResponseInterface> {
-    const task = await this.taskService.createNew(taskCreate, user);
+    const task = await this.taskService.create(taskCreate, user);
 
     return {
       statusCode: 201,
@@ -33,7 +33,7 @@ export class TaskController {
   async detail(
     @Body() taskDetail: TaskDetailDto,
   ): Promise<TaskResponseInterface> {
-    const task = await this.taskService.detailExisting(taskDetail);
+    const task = await this.taskService.detail(taskDetail);
 
     return {
       statusCode: 200,
@@ -45,7 +45,7 @@ export class TaskController {
   async search(
     @Body() taskSearch: TaskSearchDto,
   ): Promise<TasksResponseInterface> {
-    const tasks = await this.taskService.searchExisting(taskSearch);
+    const tasks = await this.taskService.search(taskSearch);
 
     return {
       statusCode: 200,
