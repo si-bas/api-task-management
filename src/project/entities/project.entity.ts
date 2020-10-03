@@ -1,10 +1,13 @@
 import { classToPlain, Exclude } from 'class-transformer';
+import { UserEntity } from 'src/auth/entities/user.entity';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -22,6 +25,10 @@ export class ProjectEntity extends BaseEntity {
 
   @Column({ default: '#000000' })
   color: string;
+
+  @ManyToOne(() => UserEntity, { nullable: true })
+  @JoinColumn({ name: 'user_id' })
+  user: UserEntity;
 
   @Exclude({ toPlainOnly: true })
   @CreateDateColumn({ name: 'created_at' })

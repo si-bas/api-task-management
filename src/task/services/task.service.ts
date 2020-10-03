@@ -49,7 +49,7 @@ export class TaskService {
   /**
    * Update existing task
    */
-  public async updateExisting(taskUpdate: TaskUpdateDto): Promise<TaskEntity> {
+  public async update(taskUpdate: TaskUpdateDto): Promise<TaskEntity> {
     const { id, title, description, dueDate, projectId } = taskUpdate;
     const task = await this.taskRespository.findOne({
       where: { id },
@@ -123,7 +123,7 @@ export class TaskService {
   /**
    * Soft delete existing task
    */
-  public async softDeleteExisting(taskDelete: TaskDeleteDto): Promise<any> {
+  public async softDelete(taskDelete: TaskDeleteDto): Promise<any> {
     const { id } = taskDelete;
     const task = await this.taskRespository.findOne(id);
 

@@ -15,7 +15,6 @@ import { TaskDeleteDto } from './dto/task-delete.dto';
 import { TaskDetailDto } from './dto/task-detail.dto';
 import { TaskSearchDto } from './dto/task-search.dto';
 import { TaskUpdateDto } from './dto/task-update.dto';
-import { TaskEntity } from './entities/task.entity';
 import {
   TaskResponseInterface,
   TasksResponseInterface,
@@ -41,10 +40,15 @@ export class TaskController {
   }
 
   @Patch('update')
-  async update(@Body() taskUpdate: TaskUpdateDto): Promise<TaskEntity> {
-    const task = await this.taskService.updateExisting(taskUpdate);
+  async update(
+    @Body() taskUpdate: TaskUpdateDto,
+  ): Promise<TaskResponseInterface> {
+    const task = await this.taskService.update(taskUpdate);
 
-    return task;
+    return {
+      statusCode: 201,
+      data: task,
+    };
   }
 
   @Get('detail')
@@ -73,6 +77,6 @@ export class TaskController {
 
   @Delete('delete')
   async delete(@Body() taskDelete: TaskDeleteDto): Promise<any> {
-    return this.taskService.softDeleteExisting(taskDelete);
+    return this.taskService.softDelete(taskDelete);
   }
 }

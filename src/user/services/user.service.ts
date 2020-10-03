@@ -19,8 +19,8 @@ export class UserService {
    */
   public async detail(userDetail: UserDetailDto): Promise<UserEntity> {
     const { id } = userDetail;
-    const user = await this.userRepository.findOne(id);
 
+    const user = await this.userRepository.findOne(id);
     if (!user) throw new NotFoundException('User not found!');
 
     return user;
@@ -31,8 +31,8 @@ export class UserService {
    */
   public async update(userUpdate: UserUpdateDto): Promise<UserEntity> {
     const { id } = userUpdate;
-    const user = await this.userRepository.findOne(id);
 
+    const user = await this.userRepository.findOne(id);
     if (!user) throw new NotFoundException('User not found!');
 
     for (const key in userUpdate) {
@@ -53,8 +53,8 @@ export class UserService {
    */
   public async tasks(userTasks: UserTasksDto): Promise<UserTasksInterface> {
     const { id } = userTasks;
-    const user = await this.userRepository.findOne(id);
 
+    const user = await this.userRepository.findOne(id);
     if (!user) throw new NotFoundException('User not found!');
 
     const tasks = await this.taskRepository.find({
