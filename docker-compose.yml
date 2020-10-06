@@ -11,8 +11,9 @@ services:
       - PASSWORD=terserahlw
       - SUDO_PASSWORD=terserahlw
     volumes:
-      - ./docker/vscode:/config
+      - ./docker/vscode/config:/config
       - ./:/config/workspace
+      - ./docker/vscode/extensions:/config/extensions
     ports:
       - 8443:8443
     restart: unless-stopped
