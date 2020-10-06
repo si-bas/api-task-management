@@ -2,14 +2,14 @@ version: '3.1'
 
 services:
   code-server:
-    image: linuxserver/code-server
+    build: ./docker/vscode
     container_name: 'app-code-server'
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Asia/Jakarta
       - PASSWORD=terserahlw
-      - SUDO_PASSWORD=terserahlw
+      # - SUDO_PASSWORD=terserahlw
     volumes:
       - ./docker/vscode/config:/config
       - ./:/config/workspace
