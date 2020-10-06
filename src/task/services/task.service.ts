@@ -10,12 +10,15 @@ import { TaskUpdateDto } from '../dto/task-update.dto';
 import { TaskEntity } from '../entities/task.entity';
 import { TaskStatusEnum } from '../enums/task-status.enum';
 import { TaskRepository } from '../repositories/task.repository';
+import { TaskListDto } from '../dto/task-list.dto';
+import { UserRepository } from 'src/auth/repositories/user.repository';
 
 @Injectable()
 export class TaskService {
   constructor(
     private readonly taskRespository: TaskRepository,
     private readonly projectRespository: ProjectRepository,
+    private readonly userRepository: UserRepository
   ) {}
 
   /**
@@ -135,5 +138,26 @@ export class TaskService {
       statusCode: 200,
       message: 'Task deleted successfully',
     };
+  }
+
+  /**
+   * Get list of tasks
+   */
+  public async list(taskList: TaskListDto): Promise<TaskEntity[]> {
+    const { userId, projectId } = taskList;
+
+    const tasks = await this.taskRespository.find({
+      where: {
+        user: {
+          id: userId
+        },
+        project: {
+          id: projectId || Not(IsNull())
+        }
+      },
+      relations: ['user', 'project']
+    });
+
+    return tasks;
   }
 }

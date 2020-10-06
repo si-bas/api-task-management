@@ -7,6 +7,7 @@ import { SubTaskService } from './services/sub-task.service';
 import { ProjectRepository } from 'src/project/repositories/project.repository';
 import { AuthModule } from 'src/auth/auth.module';
 import { SubTaskRepository } from './repositories/sub-task.repository';
+import { UserRepository } from 'src/auth/repositories/user.repository';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { SubTaskRepository } from './repositories/sub-task.repository';
       ProjectRepository,
       TaskRepository,
       SubTaskRepository,
+      UserRepository
     ]),
   ],
   controllers: [TaskController],

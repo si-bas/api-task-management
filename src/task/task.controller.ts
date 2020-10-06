@@ -20,6 +20,7 @@ import {
   TasksResponseInterface,
 } from './interfaces/task-response.interface';
 import { TaskService } from './services/task.service';
+import { TaskListDto } from './dto/task-list.dto';
 
 @Controller('task')
 @UseGuards(AuthGuard())
@@ -78,5 +79,15 @@ export class TaskController {
   @Delete('delete')
   async delete(@Body() taskDelete: TaskDeleteDto): Promise<any> {
     return this.taskService.softDelete(taskDelete);
+  }
+
+  @Get('list')
+  async list(@Body() taskList: TaskListDto): Promise<TasksResponseInterface> {
+    const tasks = await this.taskService.list(taskList);
+    
+    return {
+      statusCode: 200,
+      data: tasks,
+    };
   }
 }
