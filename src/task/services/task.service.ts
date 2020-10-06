@@ -11,14 +11,12 @@ import { TaskEntity } from '../entities/task.entity';
 import { TaskStatusEnum } from '../enums/task-status.enum';
 import { TaskRepository } from '../repositories/task.repository';
 import { TaskListDto } from '../dto/task-list.dto';
-import { UserRepository } from 'src/auth/repositories/user.repository';
 
 @Injectable()
 export class TaskService {
   constructor(
     private readonly taskRespository: TaskRepository,
-    private readonly projectRespository: ProjectRepository,
-    private readonly userRepository: UserRepository
+    private readonly projectRespository: ProjectRepository
   ) {}
 
   /**

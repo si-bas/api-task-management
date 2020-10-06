@@ -67,9 +67,4 @@ export class ProjectService {
 
     return 'Project deleted successfully';
   }
-
-  /**
-   * Get all taska on existing project
-   */
-  public tasks() {}
 }
