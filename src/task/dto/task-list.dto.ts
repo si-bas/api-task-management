@@ -1,11 +1,11 @@
-import { IsNotEmpty, IsNumber, IsOptional } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 
 export class TaskListDto {
-    @IsNotEmpty()
-    @IsNumber()
-    userId: number;
+  @IsNotEmpty()
+  // @IsNumber()
+  userId: string;
 
-    @IsOptional()
-    @IsNumber()
-    projectId: number;
+  @IsOptional()
+  // @IsNumber()
+  projectId: string;
 }

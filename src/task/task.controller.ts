@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Patch,
   Post,
   UseGuards,
@@ -54,7 +55,7 @@ export class TaskController {
 
   @Get('detail')
   async detail(
-    @Body() taskDetail: TaskDetailDto,
+    @Param() taskDetail: TaskDetailDto,
   ): Promise<TaskResponseInterface> {
     const task = await this.taskService.detail(taskDetail);
 
@@ -66,7 +67,7 @@ export class TaskController {
 
   @Get('search')
   async search(
-    @Body() taskSearch: TaskSearchDto,
+    @Param() taskSearch: TaskSearchDto,
   ): Promise<TasksResponseInterface> {
     const tasks = await this.taskService.search(taskSearch);
 
@@ -82,9 +83,9 @@ export class TaskController {
   }
 
   @Get('list')
-  async list(@Body() taskList: TaskListDto): Promise<TasksResponseInterface> {
+  async list(@Param() taskList: TaskListDto): Promise<TasksResponseInterface> {
     const tasks = await this.taskService.list(taskList);
-    
+
     return {
       statusCode: 200,
       data: tasks,

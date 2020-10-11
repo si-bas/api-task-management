@@ -2,14 +2,14 @@ import { IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 
 export class TaskDetailDto {
   @IsNotEmpty()
-  @IsNumber()
-  id: number;
+  // @IsNumber()
+  id: string;
 
   @IsOptional()
-  @IsNumber()
-  userId: number;
+  // @IsNumber()
+  userId: string;
 
   @IsOptional()
-  @IsNumber()
-  projectId: number;
+  // @IsNumber()
+  projectId: string;
 }
